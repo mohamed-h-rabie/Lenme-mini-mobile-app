@@ -2,6 +2,7 @@ import { useSession } from "@/components/providers/SessionProvider";
 import { useMutation } from "@tanstack/react-query";
 import * as SecureStore from "expo-secure-store";
 import { Alert } from "react-native";
+import axios from "axios";
 
 import apiClient from "@/api/index";
 
@@ -10,7 +11,15 @@ const signIn = async (data: { email: string; password: string }) => {
     const res = await apiClient.post(`/users/signIn`, data);
     return res.data;
   } catch (error: unknown) {
-    throw error;
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message;
+      throw new Error(
+        typeof message === "string" && message.trim().length > 0
+          ? message
+          : "Invalid email or password"
+      );
+    }
+    throw new Error("Something went wrong");
   }
 };
 

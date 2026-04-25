@@ -47,7 +47,13 @@ function RootLoader() {
     tokenExpiresInMs != null ? Math.ceil(tokenExpiresInMs / 1000) : null;
   const countdownLabel =
     secondsLeft != null
-      ? `${Math.floor(secondsLeft / 60)}:${String(secondsLeft % 60).padStart(2, "0")}`
+      ? [
+          Math.floor(secondsLeft / 3600),
+          Math.floor((secondsLeft % 3600) / 60),
+          secondsLeft % 60,
+        ]
+          .map((n, i) => (i === 0 ? String(n) : String(n).padStart(2, "0")))
+          .join(":")
       : null;
 
   return (
@@ -55,11 +61,11 @@ function RootLoader() {
       <NavigationContainer>
         <RootNavigator isAuthenticated={Boolean(session)} backgroundColor={appBackground} />
       </NavigationContainer>
-      {__DEV__ && session && countdownLabel != null && (
+      {/* {__DEV__ && session && countdownLabel != null && (
         <View style={styles.expiryBadge}>
           <Text style={styles.expiryText}>Token expires in {countdownLabel}</Text>
         </View>
-      )}
+      )} */}
     </View>
   );
 }

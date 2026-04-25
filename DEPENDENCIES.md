@@ -31,6 +31,12 @@ This file reflects the current dependency versions in:
 - `nodemon`: ^3.1.10
 - `typescript`: ^5.9.3
 
+### Architectural Role
+
+- Express + Mongoose provide a simple layered API service for auth and profile operations.
+- `jsonwebtoken` + `bcrypt` are used for stateless auth and password hashing.
+- `nodemailer` + `otp-generator` drive OTP verification and password reset flows.
+
 ## Frontend (`client`)
 
 ### Runtime Dependencies
@@ -84,3 +90,16 @@ This file reflects the current dependency versions in:
 - `eslint-config-expo`: ~55.0.0
 - `eslint-plugin-unused-imports`: ^4.4.1
 - `typescript`: ~5.9.2
+
+### Architectural Role
+
+- React Navigation organizes authenticated vs unauthenticated routes and app tabs.
+- TanStack Query centralizes async server state and request lifecycle handling.
+- React Hook Form + Zod keep forms declarative with schema-based validation.
+- Axios provides a single API client configured by `EXPO_PUBLIC_API_BASE_URL`.
+
+## Assumptions Made
+
+- Dependency versions are pinned/ranged for compatibility with Expo SDK 55.
+- Node.js 18+ and pnpm are used consistently across team machines.
+- No additional private packages are required to run current app features.

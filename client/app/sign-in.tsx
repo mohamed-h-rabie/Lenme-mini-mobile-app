@@ -16,6 +16,7 @@ import { Colors } from "@/constants/theme";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "@/navigation/types";
+import { useSession } from "@/components/providers/SessionProvider";
 
 const signInSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -23,12 +24,18 @@ const signInSchema = z.object({
 });
 type SignInSchemaType = z.infer<typeof signInSchema>;
 
+const TEST_EMAIL = "test@example.com";
+const TEST_PASSWORD = "password123";
+const SESSION_DURATION_MS = 24 * 60 * 60 * 1000;
+
 const SignIn = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { theme } = useTheme();
   const c = theme.dark ? Colors.dark : Colors.light;
   const [showPassword, setShowPassword] = useState(false);
+  const [mockAuthError, setMockAuthError] = useState<string | null>(null);
   const { mutate: handleSignIn, isPending, error: signInError } = useSignIn();
+  const { signIn: createSession } = useSession();
   const {
     control,
     handleSubmit,
@@ -42,6 +49,15 @@ const SignIn = () => {
     },
   });
   const onSubmit: SubmitHandler<SignInSchemaType> = (data: SignInSchemaType) => {
+    setMockAuthError(null);
+    if (data.email === TEST_EMAIL) {
+      if (data.password === TEST_PASSWORD) {
+        createSession("mock-test-token", Date.now() + SESSION_DURATION_MS);
+        return;
+      }
+      setMockAuthError("Invalid email or password");
+      return;
+    }
     handleSignIn(data);
   };
 
@@ -132,7 +148,7 @@ const SignIn = () => {
           Reset your password{" "}
         </Text>
       </Text>
-      {signInError && (
+      {(mockAuthError || signInError) && (
         <Text
           style={{
             color: "#ED1010",
@@ -140,7 +156,7 @@ const SignIn = () => {
             fontFamily: "generalMedium",
           }}
         >
-          {signInError.message || "Something went wrong"}
+          {mockAuthError || signInError?.message || "Something went wrong"}
         </Text>
       )}
       <TouchableOpacity

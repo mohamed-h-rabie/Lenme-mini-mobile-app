@@ -2,6 +2,17 @@
 
 Base prefix for all routes in this file: `/api/users`
 
+## Setup & Run Context
+
+- Expected local backend URL: `http://localhost:3000`
+- Typical client API base URL format: `http://<LAN_IP>:3000/api`
+- Start API server with:
+
+```bash
+cd server
+pnpm run dev
+```
+
 ## Public Authentication Endpoints
 
 ### `POST /signUp`
@@ -134,3 +145,15 @@ Delete current user account.
 
 - This project currently exposes user/auth endpoints only.
 - QR and WebSocket endpoints are not part of the active server routes in the current codebase.
+
+## Architecture Decisions (API)
+
+- Endpoints are grouped under a single user/auth namespace (`/api/users`) to keep auth flow cohesive.
+- Protected routes rely on JWT bearer tokens rather than server sessions.
+- OTP verification is treated as a prerequisite step for account verification and password reset safety.
+
+## Assumptions Made
+
+- Email transport is configured and reachable when OTP endpoints are used.
+- Clients send `Authorization: Bearer <token>` for protected operations.
+- Multipart handling for profile updates is limited to expected user profile payloads and optional `photo`.

@@ -15,8 +15,30 @@ const Profile = () => {
   const { session, signOut } = useSession();
   const { theme } = useTheme();
   const c = theme.dark ? Colors.dark : Colors.light;
+  const isMockUser = session === "mock-test-token";
+  const mockEmail = "test@example.com";
 
-  const { data, isLoading, error } = useGetMe(session);
+  const { data, isLoading, error } = useGetMe(isMockUser ? null : session);
+
+  if (isMockUser) {
+    return (
+      <View style={[styles.container, { backgroundColor: c.background.primary }]}>
+        <View style={styles.header}>
+          <Text style={[styles.name, { color: c.text.primary }]}>Mock User</Text>
+          <Text style={[styles.email, { color: c.text.secondary }]}>{mockEmail}</Text>
+          <Text style={[styles.mockBadge, { color: c.text.secondary }]}>Signed in with mock credentials</Text>
+        </View>
+
+        <TouchableOpacity
+          onPress={signOut}
+          style={[styles.logoutBtn, { backgroundColor: "#FF4444" }]}
+        >
+          <Text style={styles.logoutText}>Log Out</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   if (isLoading) {
     return (
       <View style={[styles.center, { backgroundColor: c.background.primary }]}>
@@ -79,6 +101,11 @@ const styles = StyleSheet.create({
   email: {
     fontSize: 18,
     fontFamily: "generalRegular",
+    marginTop: 8,
+  },
+  mockBadge: {
+    fontSize: 14,
+    fontFamily: "generalMedium",
     marginTop: 8,
   },
   infoSection: {

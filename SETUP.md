@@ -43,13 +43,13 @@ cd client
 pnpm install
 ```
 
-Edit `client/api/index.ts` and set:
+Create `client/.env` and set:
 
-```ts
-export const BASE_IP = "YOUR_LOCAL_IP";
+```env
+EXPO_PUBLIC_API_BASE_URL=http://YOUR_LOCAL_IP:3000/api
 ```
 
-Use your machine LAN IP (for example `192.168.1.5`) when running on a phone or emulator connected over network.
+Use your machine LAN IP (for example `192.168.1.5`) when running on a phone or emulator connected over network. `localhost` works only when both client and server share the same host runtime.
 
 Start Expo:
 
@@ -63,8 +63,27 @@ Useful shortcuts in Expo terminal:
 - `i` => open iOS
 - `w` => open web
 
+## Mock Data
+
+Example mock credentials:
+
+- Email: `test@example.com`
+- Password: `password123`
+
 ## Quick Troubleshooting
 
-- If API calls fail on device, re-check `BASE_IP` in `client/api/index.ts`.
+- If API calls fail on device, re-check `EXPO_PUBLIC_API_BASE_URL` in `client/.env`.
 - Ensure server and phone/emulator are on the same network.
 - Verify MongoDB is running before starting backend.
+
+## Architecture Decisions (Setup Related)
+
+- Runtime config is environment-based (`config.env` on server, `.env` on client) to avoid code edits per machine.
+- Backend is launched independently from frontend to keep local debugging straightforward.
+- Client uses JWT expiry metadata from server to manage session timeout behavior.
+
+## Assumptions Made
+
+- You have access to a MongoDB instance before starting the API.
+- You can provide valid Gmail SMTP credentials for OTP emails.
+- `pnpm` is installed globally and available in terminal PATH.
