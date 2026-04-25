@@ -6,6 +6,10 @@ Full-stack authentication app with an Expo React Native client and a Node.js/Exp
 
 [App screen recording (Google Drive)](https://drive.google.com/file/d/1BNksk2db9uQ_Sj4X7t1N5GwFN_175Y9v/view?usp=drivesdk)
 
+## Application Link
+
+[Download app build (Expo)](https://expo.dev/accounts/mohamedrabie275/projects/Auth/builds/460d442a-a89d-4cfc-a845-cc313f6d3c3a)
+
 ## Setup Instructions
 
 ### Prerequisites
