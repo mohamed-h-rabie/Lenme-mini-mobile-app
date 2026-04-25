@@ -1,0 +1,15 @@
+# Dependencies are installed on EAS workers — do not upload.
+node_modules/
+
+# Local / generated
+.expo/
+dist/
+web-build/
+.metro-health-check*
+
+# Native dirs generated locally (EAS runs prebuild as needed)
+android/
+ios/
+
+# VCS
+.git/
