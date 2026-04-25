@@ -2,6 +2,10 @@
 
 Full-stack authentication app with an Expo React Native client and a Node.js/Express API.
 
+## Demo video
+
+[App screen recording (Google Drive)](https://drive.google.com/file/d/1BNksk2db9uQ_Sj4X7t1N5GwFN_175Y9v/view?usp=drivesdk)
+
 ## Setup Instructions
 
 ### Prerequisites

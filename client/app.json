@@ -45,6 +45,18 @@
     ],
     "experiments": {
       "reactCompiler": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e991ea67-3f8e-43a8-a643-01527009a65f"
+      }
+    },
+    "owner": "mohamedrabie275",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/e991ea67-3f8e-43a8-a643-01527009a65f"
     }
   }
 }
